@@ -1,65 +1,127 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Step, AOData, AnalyseAO, SectionReponse, ConfigEntreprise } from "@/lib/types";
+import { defaultConfig, exempleAO, extraireInfosAO, analyserAO, genererReponse } from "@/lib/mock-data";
+import Header from "@/components/Header";
+import Stepper from "@/components/Stepper";
+import StepSaisie from "@/components/StepSaisie";
+import StepAnalyse from "@/components/StepAnalyse";
+import StepReponse from "@/components/StepReponse";
+import StepExport from "@/components/StepExport";
+import StepApercu from "@/components/StepApercu";
+import ConfigPanel from "@/components/ConfigPanel";
 
 export default function Home() {
+  const [step, setStep] = useState<Step>("saisie");
+  const [showConfig, setShowConfig] = useState(false);
+  const [config, setConfig] = useState<ConfigEntreprise>(defaultConfig);
+  const [aoText, setAoText] = useState("");
+  const [aoData, setAoData] = useState<AOData | null>(null);
+  const [analyse, setAnalyse] = useState<AnalyseAO | null>(null);
+  const [sections, setSections] = useState<SectionReponse[]>([]);
+  const [isAnalysing, setIsAnalysing] = useState(false);
+
+  const handleAnalyser = () => {
+    const textToUse = aoText || exempleAO;
+    if (!aoText) setAoText(exempleAO);
+    setIsAnalysing(true);
+    setTimeout(() => {
+      const data = extraireInfosAO(textToUse);
+      setAoData(data);
+      const result = analyserAO(data);
+      setAnalyse(result);
+      setIsAnalysing(false);
+      setStep("analyse");
+    }, 2200);
+  };
+
+  const handleGenererReponse = () => {
+    if (!aoData) return;
+    const rep = genererReponse(aoData, config);
+    setSections(rep);
+    setStep("reponse");
+  };
+
+  const handleApercu = () => {
+    setStep("apercu");
+  };
+
+  const handleExport = () => {
+    setStep("export");
+  };
+
+  const handleReset = () => {
+    setStep("saisie");
+    setAoText("");
+    setAoData(null);
+    setAnalyse(null);
+    setSections([]);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="min-h-screen flex flex-col">
+      <Header onConfigClick={() => setShowConfig(!showConfig)} />
+
+      {showConfig ? (
+        <ConfigPanel config={config} setConfig={setConfig} onClose={() => setShowConfig(false)} />
+      ) : (
+        <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6">
+          <Stepper currentStep={step} onStepClick={setStep} canNavigate={{
+            saisie: true,
+            analyse: !!aoData,
+            reponse: sections.length > 0,
+            apercu: sections.length > 0,
+            export: sections.length > 0,
+          }} />
+
+          <div className="mt-8 fade-in">
+            {step === "saisie" && (
+              <StepSaisie
+                aoText={aoText}
+                setAoText={setAoText}
+                onAnalyser={handleAnalyser}
+                exempleAO={exempleAO}
+                isAnalysing={isAnalysing}
+              />
+            )}
+            {step === "analyse" && analyse && aoData && (
+              <StepAnalyse
+                aoData={aoData}
+                analyse={analyse}
+                onGenerer={handleGenererReponse}
+                onRetour={() => setStep("saisie")}
+              />
+            )}
+            {step === "reponse" && (
+              <StepReponse
+                sections={sections}
+                setSections={setSections}
+                onApercu={handleApercu}
+                onRetour={() => setStep("analyse")}
+              />
+            )}
+            {step === "apercu" && aoData && (
+              <StepApercu
+                sections={sections.filter(s => s.included)}
+                aoData={aoData}
+                config={config}
+                onExport={handleExport}
+                onRetour={() => setStep("reponse")}
+              />
+            )}
+            {step === "export" && aoData && (
+              <StepExport
+                sections={sections.filter(s => s.included)}
+                aoData={aoData}
+                config={config}
+                onReset={handleReset}
+                onRetour={() => setStep("apercu")}
+              />
+            )}
+          </div>
+        </main>
+      )}
     </div>
   );
 }
