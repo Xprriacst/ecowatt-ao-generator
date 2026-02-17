@@ -66,7 +66,7 @@ export default function Home() {
       {showConfig ? (
         <ConfigPanel config={config} setConfig={setConfig} onClose={() => setShowConfig(false)} />
       ) : (
-        <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6">
+        <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-6">
           <Stepper currentStep={step} onStepClick={setStep} canNavigate={{
             saisie: true,
             analyse: !!aoData,

@@ -1,0 +1,252 @@
+AVIS D'APPEL PUBLIC À LA CONCURRENCE
+
+Pouvoir adjudicateur : Mairie de Châteauroux
+Service : Direction des Bâtiments et de l'Énergie
+Adresse : 1 Place de la République, 36000 Châteauroux
+Téléphone : 02 54 08 33 00
+Email : marches@ville-chateauroux.fr
+Contact : Madame Sophie MARTIN, Responsable des Marchés Publics
+
+OBJET DU MARCHÉ
+Travaux de rénovation et mise en conformité des installations électriques du groupe scolaire Jean Moulin
+
+RÉFÉRENCE DU MARCHÉ
+MARCHE-2025-ELEC-042
+
+TYPE DE MARCHÉ
+Travaux - Procédure adaptée (MAPA) - Article L2123-1 du Code de la commande publique
+
+DESCRIPTION DÉTAILLÉE DES TRAVAUX
+
+Le présent marché porte sur la rénovation complète des installations électriques du groupe scolaire Jean Moulin, établissement recevant du public (ERP) de type R situé au 15 rue de la République, 36000 Châteauroux.
+
+Les travaux comprennent :
+
+1. TABLEAU GÉNÉRAL BASSE TENSION (TGBT)
+- Dépose du TGBT existant vétuste (installation datant de 1985)
+- Fourniture et pose d'un nouveau TGBT conforme NF C 15-100
+- Disjoncteur général 160A avec protection différentielle 300mA
+- Tableaux divisionnaires par zone (12 salles de classe + espaces communs)
+- Parafoudre type 2
+- Compteur d'énergie modulaire pour suivi des consommations
+- Repérage et étiquetage complet de tous les circuits
+
+2. MISE EN CONFORMITÉ RÉSEAU ÉLECTRIQUE
+- Vérification et remise aux normes du réseau de terre (prise de terre + liaisons équipotentielles)
+- Remplacement de l'ensemble des câblages non conformes
+- Pose de chemins de câbles et goulottes selon plans d'exécution
+- Mise en conformité de toutes les prises de courant (hauteur réglementaire, 2P+T)
+- Remplacement de l'appareillage vétuste (interrupteurs, va-et-vient)
+
+3. ÉCLAIRAGE LED HAUTE PERFORMANCE
+- Dépose de l'éclairage fluorescent existant (tubes néons)
+- Installation de dalles LED 600x600 encastrées dans les 12 salles de classe
+  * Puissance : 36W par dalle (équivalent 4x18W fluorescent)
+  * Température de couleur : 4000K (blanc neutre adapté à l'enseignement)
+  * IRC > 80 pour un rendu des couleurs fidèle
+  * Durée de vie : 50 000 heures minimum
+  * Driver DALI pour gradation et pilotage par GTC
+- Réglettes LED étanches IP65 dans les couloirs et circulations
+- Hublots LED avec détecteur de présence intégré dans les sanitaires
+- Luminaires LED adaptés dans les espaces communs (cantine, préau, hall d'entrée)
+
+4. DÉTECTEURS DE PRÉSENCE
+- Installation de détecteurs infrarouges passifs (IRP) dans les sanitaires
+- Détecteurs bi-technologie (IRP + hyperfréquence) dans les couloirs
+- Paramétrage des seuils de luminosité et temporisations
+- Intégration avec le système de GTC
+
+5. GESTION TECHNIQUE CENTRALISÉE (GTC)
+- Fourniture et installation d'un système de GTC pour pilotage de l'éclairage
+- Contrôleur programmable avec interface web intégrée
+- Modules d'entrées/sorties pour commande des circuits
+- Écran tactile 10" en loge gardien + accès web sécurisé
+- Protocole DALI pour communication avec les drivers LED
+- Programmation de scénarios : mode cours, mode nettoyage, mode vacances
+- Suivi en temps réel des consommations énergétiques
+- Système d'alertes en cas de dysfonctionnement
+
+6. SYSTÈME D'ALARME INCENDIE
+- Centrale d'alarme type 4 conforme NF S 61-936
+- Détecteurs optiques de fumée certifiés NF dans les locaux à risque
+- Déclencheurs manuels à membrane déformable aux issues de secours
+- Diffuseurs sonores et lumineux (DSNA) conformes NF C 48-150
+- Câblage en boucle rebouclée (catégorie C) avec câbles CR1-C1 résistants au feu
+- Mise en service et essais complets
+
+CARACTÉRISTIQUES DU BÂTIMENT
+- Surface totale : 1 200 m²
+- 12 salles de classe
+- Couloirs et circulations : 200 m²
+- Sanitaires : 80 m²
+- Espaces communs (cantine, préau, hall) : 300 m²
+- Bâtiment construit en 1975, rénové partiellement en 1995
+- ERP de type R, catégorie 4 (effectif < 300 personnes)
+
+CONTRAINTES D'EXÉCUTION
+- Travaux à réaliser IMPÉRATIVEMENT pendant les vacances scolaires d'été 2025 (7 juillet au 29 août 2025)
+- Aucune perturbation de l'activité scolaire n'est tolérée
+- Accès au site : du lundi au vendredi, 8h00-18h00
+- Zone de stockage matériaux : cour de récréation (à protéger)
+- Coordination avec d'autres corps de métier possible (peinture, menuiserie)
+
+MONTANT ESTIMÉ DU MARCHÉ
+Entre 80 000 € et 120 000 € HT
+
+DURÉE D'EXÉCUTION
+8 semaines maximum (du 7 juillet au 29 août 2025)
+
+CRITÈRES D'ATTRIBUTION ET PONDÉRATION
+1. Prix des prestations : 40%
+2. Valeur technique de l'offre : 35%
+   - Qualité des équipements proposés
+   - Méthodologie et organisation du chantier
+   - Moyens humains et techniques mobilisés
+   - Démarche qualité et sécurité
+3. Performance énergétique : 15%
+   - Économies d'énergie générées (kWh/an)
+   - Durée de vie des équipements
+   - Fonctionnalités de la GTC
+4. Délai d'exécution : 10%
+
+DOCUMENTS EXIGÉS POUR LA CANDIDATURE
+
+Documents administratifs (DC) :
+- DC1 : Lettre de candidature
+- DC2 : Déclaration du candidat individuel ou du membre du groupement
+- DUME (Document Unique de Marché Européen) ou équivalent
+- KBIS de moins de 3 mois
+- Attestation d'assurance responsabilité civile professionnelle en cours de validité
+- Attestation d'assurance garantie décennale en cours de validité
+- Attestation de vigilance URSSAF de moins de 6 mois
+- Attestation fiscale de moins de 6 mois
+
+Documents techniques :
+- Mémoire technique détaillé comprenant :
+  * Compréhension du besoin et analyse du cahier des charges
+  * Méthodologie et organisation du chantier (phasage détaillé)
+  * Planning prévisionnel d'exécution (diagramme de Gantt)
+  * Moyens humains mobilisés (CV des intervenants, habilitations électriques)
+  * Moyens techniques et matériels (outillage, appareils de mesure)
+  * Fiches techniques des équipements proposés (TGBT, luminaires LED, GTC, alarme incendie)
+  * Démarche qualité (autocontrôles, points d'arrêt)
+  * Plan Particulier de Sécurité et de Protection de la Santé (PPSPS)
+  * Démarche environnementale (gestion des déchets, économies d'énergie)
+- Références de travaux similaires (minimum 2 références de moins de 3 ans)
+  * Nom du maître d'ouvrage et coordonnées
+  * Nature et montant des travaux
+  * Date de réalisation
+  * Attestation de bonne exécution si possible
+- Certifications et qualifications :
+  * Habilitations électriques du personnel (B1V, B2V, BR, BC, H0V)
+  * Qualification IRVE si applicable
+  * Certification Qualifelec ou équivalent (si disponible)
+
+Documents financiers :
+- Bordereau des Prix Unitaires (BPU) complété et signé
+- Détail Quantitatif Estimatif (DQE) complété et chiffré
+- Acte d'engagement (AE) complété, daté et signé
+
+MODALITÉS DE REMISE DES OFFRES
+
+Les offres devront être transmises par voie dématérialisée uniquement sur la plateforme :
+https://marches-publics.ville-chateauroux.fr
+
+Date limite de réception des offres : 15 mars 2025 à 12h00 (heure de Paris)
+
+Aucune offre transmise par voie postale ou email ne sera acceptée.
+
+Les offres incomplètes ou reçues après la date limite seront rejetées.
+
+RENSEIGNEMENTS COMPLÉMENTAIRES
+
+Visite technique obligatoire :
+- Date : 25 février 2025 à 10h00
+- Lieu de rendez-vous : Accueil du groupe scolaire Jean Moulin, 15 rue de la République, 36000 Châteauroux
+- Inscription obligatoire par email à marches@ville-chateauroux.fr avant le 20 février 2025
+
+Dossier de Consultation des Entreprises (DCE) complet disponible en téléchargement sur la plateforme de dématérialisation.
+
+Le DCE comprend :
+- Règlement de la consultation (RC)
+- Cahier des Clauses Administratives Particulières (CCAP)
+- Cahier des Clauses Techniques Particulières (CCTP)
+- Bordereau des Prix Unitaires (BPU) vierge
+- Détail Quantitatif Estimatif (DQE) vierge
+- Plans d'exécution du bâtiment (format DWG et PDF)
+- Acte d'engagement (AE)
+
+Questions des candidats :
+Les candidats peuvent poser des questions jusqu'au 5 mars 2025 via la plateforme de dématérialisation.
+Les réponses seront publiées sur la plateforme au plus tard le 10 mars 2025.
+
+CALENDRIER PRÉVISIONNEL
+
+- Publication de l'avis : 10 février 2025
+- Visite technique obligatoire : 25 février 2025
+- Date limite des questions : 5 mars 2025
+- Réponses aux questions : 10 mars 2025
+- Date limite de remise des offres : 15 mars 2025 à 12h00
+- Analyse des offres : 16-25 mars 2025
+- Commission d'appel d'offres : 28 mars 2025
+- Notification du marché : 3 avril 2025
+- Ordre de service : 1er juillet 2025
+- Début des travaux : 7 juillet 2025
+- Fin des travaux : 29 août 2025
+- Réception des travaux : 5 septembre 2025
+
+CONDITIONS D'EXÉCUTION
+
+- Respect strict des normes NF C 15-100, NF C 14-100, NF C 13-100
+- Respect de la réglementation ERP (arrêté du 25 juin 1980 modifié)
+- Conformité aux normes d'accessibilité PMR
+- Obtention du certificat de conformité Consuel avant réception
+- Passage obligatoire du bureau de contrôle technique
+- Remise du Dossier des Ouvrages Exécutés (DOE) complet comprenant :
+  * Plans de récolement
+  * Schémas unifilaires mis à jour
+  * Notices techniques de tous les équipements
+  * PV d'essais et de contrôle
+  * Attestation de conformité Consuel
+  * Certificats de garantie des équipements
+- Formation du personnel d'entretien à l'utilisation de la GTC et du système d'alarme incendie
+- Garantie de parfait achèvement : 1 an
+- Garantie biennale : 2 ans
+- Garantie décennale : 10 ans
+
+PÉNALITÉS DE RETARD
+En cas de dépassement du délai d'exécution, des pénalités de retard seront appliquées conformément au CCAP, à hauteur de 1/1000e du montant du marché par jour de retard.
+
+Le non-respect de la date de fin des travaux (29 août 2025) entraînera des pénalités majorées de 2/1000e par jour de retard, la rentrée scolaire étant fixée au 1er septembre 2025.
+
+VARIANTES
+Les variantes sont autorisées uniquement sur les points suivants :
+- Type de luminaires LED (à performance égale ou supérieure)
+- Système de GTC (à fonctionnalités égales ou supérieures)
+- Planning d'exécution (si gain de temps sans perte de qualité)
+
+Les variantes devront être clairement identifiées et chiffrées séparément dans l'offre.
+
+SOUS-TRAITANCE
+La sous-traitance est autorisée dans les conditions prévues par le Code de la commande publique.
+Le candidat devra déclarer la part du marché qu'il envisage de sous-traiter et l'identité des sous-traitants.
+Les sous-traitants devront être agréés par le maître d'ouvrage et justifier des mêmes garanties que le titulaire.
+
+AVANCE
+Une avance de 5% du montant du marché pourra être versée sur demande du titulaire, conformément aux dispositions du décret n°2016-360 du 25 mars 2016.
+
+CLAUSE SOCIALE
+Le marché comporte une clause d'insertion sociale : le titulaire s'engage à réserver au minimum 5% du nombre total d'heures travaillées à des personnes en situation d'insertion professionnelle.
+
+CLAUSE ENVIRONNEMENTALE
+Le titulaire s'engage à :
+- Trier et recycler les déchets de chantier (DEEE, métaux, DIB)
+- Fournir un bordereau de suivi des déchets (BSD)
+- Privilégier les équipements à faible impact environnemental
+- Limiter les nuisances sonores et les émissions de poussières
+
+Fait à Châteauroux, le 10 février 2025
+
+Pour la Mairie de Châteauroux
+Le Maire
+Monsieur Jean-Pierre DURAND
