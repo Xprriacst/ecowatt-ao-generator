@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ClipboardPaste, ArrowRight, FileText, Search, FileCheck, Zap, Loader2 } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ClipboardPaste, ArrowRight, FileText, Search, FileCheck, Zap, Loader2, Upload } from "lucide-react";
 
 interface StepSaisieProps {
   aoText: string;
@@ -20,6 +20,8 @@ const analyseSteps = [
 
 export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, isAnalysing }: StepSaisieProps) {
   const [currentAnalyseStep, setCurrentAnalyseStep] = useState(0);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!isAnalysing) {
@@ -31,6 +33,25 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
     }, 500);
     return () => clearInterval(interval);
   }, [isAnalysing]);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadedFileName(file.name);
+
+    try {
+      const text = await file.text();
+      setAoText(text);
+    } catch (error) {
+      console.error("Erreur lors de la lecture du fichier:", error);
+      alert("Erreur lors de la lecture du fichier. Veuillez réessayer.");
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   if (isAnalysing) {
     return (
@@ -97,20 +118,48 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
   return (
     <div className="space-y-6">
       <div className="bg-surface rounded-xl p-6 shadow-sm border border-border">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-            <ClipboardPaste className="w-5 h-5 text-primary" />
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+              <ClipboardPaste className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold">Importer l&apos;appel d&apos;offres</h2>
+              <p className="text-sm text-muted">Copiez-collez le texte ou importez un fichier (TXT, PDF, DOCX)</p>
+            </div>
           </div>
+          
+          {/* Upload button */}
           <div>
-            <h2 className="text-lg font-semibold">Coller l&apos;appel d&apos;offres</h2>
-            <p className="text-sm text-muted">Copiez-collez le texte complet de l&apos;AO ou du CCTP dans la zone ci-dessous</p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".txt,.pdf,.doc,.docx"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+            <button
+              onClick={handleUploadClick}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
+            >
+              <Upload className="w-4 h-4" />
+              Importer un fichier
+            </button>
           </div>
         </div>
+
+        {uploadedFileName && (
+          <div className="mb-3 px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg flex items-center gap-2 text-sm">
+            <FileText className="w-4 h-4 text-primary" />
+            <span className="text-primary font-medium">Fichier importé :</span>
+            <span className="text-foreground">{uploadedFileName}</span>
+          </div>
+        )}
 
         <textarea
           value={aoText}
           onChange={(e) => setAoText(e.target.value)}
-          placeholder="Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)&#10;&#10;L'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."
+          placeholder="Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)&#10;&#10;Ou cliquez sur 'Importer un fichier' pour charger un document.&#10;&#10;L'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."
           className="w-full h-80 p-4 border border-border rounded-lg bg-surface-alt text-sm leading-relaxed resize-y font-mono"
         />
 
