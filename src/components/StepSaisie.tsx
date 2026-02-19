@@ -143,7 +143,7 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
             >
               <Upload className="w-4 h-4" />
-              Importer un fichier
+              Importer les documents (RC, CCTP, CCAP, Annexes...)
             </button>
           </div>
         </div>
