@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, AlertTriangle, CheckCircle, Lightbulb, Target, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, AlertTriangle, CheckCircle, Lightbulb, Target, Clock, Loader2 } from "lucide-react";
 import { AOData, AnalyseAO } from "@/lib/types";
 
 interface StepAnalyseProps {
@@ -8,9 +8,10 @@ interface StepAnalyseProps {
   analyse: AnalyseAO;
   onGenerer: () => void;
   onRetour: () => void;
+  isGenerating?: boolean;
 }
 
-export default function StepAnalyse({ aoData, analyse, onGenerer, onRetour }: StepAnalyseProps) {
+export default function StepAnalyse({ aoData, analyse, onGenerer, onRetour, isGenerating }: StepAnalyseProps) {
   return (
     <div className="space-y-6">
       {/* Recap AO */}
@@ -113,10 +114,20 @@ export default function StepAnalyse({ aoData, analyse, onGenerer, onRetour }: St
         </button>
         <button
           onClick={onGenerer}
-          className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors shadow-md"
+          disabled={isGenerating}
+          className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Générer la réponse
-          <ArrowRight className="w-4 h-4" />
+          {isGenerating ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Génération du mémoire en cours...
+            </>
+          ) : (
+            <>
+              Générer le mémoire technique
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
         </button>
       </div>
     </div>

@@ -52,4 +52,17 @@ export interface ConfigEntreprise {
   references: { client: string; projet: string; montant: string; annee: string }[];
 }
 
-export type Step = 'saisie' | 'analyse' | 'reponse' | 'apercu' | 'export';
+export interface UploadedFile {
+  file: File;
+  name: string;
+  size: number;
+  preview?: string;
+}
+
+export interface AnalysePlans {
+  rapportMarkdown: string;
+  status: 'idle' | 'loading' | 'done' | 'error';
+  error?: string;
+}
+
+export type Step = 'saisie' | 'analyse' | 'plans' | 'reponse' | 'apercu' | 'export';

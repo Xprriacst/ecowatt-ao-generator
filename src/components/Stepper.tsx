@@ -1,11 +1,12 @@
 "use client";
 
-import { ClipboardPaste, Search, FileText, Eye, Send } from "lucide-react";
+import { ClipboardPaste, Search, FileText, Eye, Send, Map } from "lucide-react";
 import { Step } from "@/lib/types";
 
 const steps: { key: Step; label: string; icon: React.ReactNode }[] = [
   { key: "saisie", label: "Saisie AO", icon: <ClipboardPaste className="w-5 h-5" /> },
   { key: "analyse", label: "Analyse", icon: <Search className="w-5 h-5" /> },
+  { key: "plans", label: "Plans", icon: <Map className="w-5 h-5" /> },
   { key: "reponse", label: "Réponse", icon: <FileText className="w-5 h-5" /> },
   { key: "apercu", label: "Aperçu", icon: <Eye className="w-5 h-5" /> },
   { key: "export", label: "Export & Envoi", icon: <Send className="w-5 h-5" /> },
