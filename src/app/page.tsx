@@ -132,7 +132,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header onConfigClick={() => setShowConfig(!showConfig)} />
+      <Header onConfigClick={() => setShowConfig(!showConfig)} config={config} />
 
       {showConfig ? (
         <ConfigPanel config={config} setConfig={setConfig} onClose={() => setShowConfig(false)} />
