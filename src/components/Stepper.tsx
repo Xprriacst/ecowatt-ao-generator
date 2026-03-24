@@ -1,15 +1,14 @@
 "use client";
 
-import { ClipboardPaste, Search, FileText, Eye, Send, Map } from "lucide-react";
 import { Step } from "@/lib/types";
 
-const steps: { key: Step; label: string; icon: React.ReactNode }[] = [
-  { key: "saisie", label: "Saisie AO", icon: <ClipboardPaste className="w-5 h-5" /> },
-  { key: "analyse", label: "Analyse", icon: <Search className="w-5 h-5" /> },
-  { key: "plans", label: "Plans", icon: <Map className="w-5 h-5" /> },
-  { key: "reponse", label: "Réponse", icon: <FileText className="w-5 h-5" /> },
-  { key: "apercu", label: "Aperçu", icon: <Eye className="w-5 h-5" /> },
-  { key: "export", label: "Export & Envoi", icon: <Send className="w-5 h-5" /> },
+const steps: { key: Step; label: string }[] = [
+  { key: "saisie", label: "Saisie AO" },
+  { key: "analyse", label: "Analyse" },
+  { key: "plans", label: "Plans" },
+  { key: "reponse", label: "Réponse" },
+  { key: "apercu", label: "Aperçu" },
+  { key: "export", label: "Export" },
 ];
 
 interface StepperProps {
@@ -22,42 +21,45 @@ export default function Stepper({ currentStep, onStepClick, canNavigate }: Stepp
   const currentIndex = steps.findIndex((s) => s.key === currentStep);
 
   return (
-    <div className="flex items-center justify-between bg-surface rounded-xl p-4 shadow-sm border border-border">
-      {steps.map((s, i) => {
-        const isActive = s.key === currentStep;
-        const isDone = i < currentIndex;
-        const canClick = canNavigate[s.key];
+    <nav className="mb-8">
+      <div className="flex items-end gap-3">
+        {steps.map((s, i) => {
+          const isActive = s.key === currentStep;
+          const isDone = i < currentIndex;
+          const canClick = canNavigate[s.key];
+          const num = String(i + 1).padStart(2, "0");
 
-        return (
-          <div key={s.key} className="flex items-center flex-1">
+          return (
             <button
+              key={s.key}
               onClick={() => canClick && onStepClick(s.key)}
               disabled={!canClick}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-sm font-medium step-indicator ${
-                isActive
-                  ? "bg-primary text-white shadow-md"
-                  : isDone
-                  ? "bg-primary-light/10 text-primary cursor-pointer hover:bg-primary-light/20"
-                  : canClick
-                  ? "text-muted hover:bg-surface-alt cursor-pointer"
-                  : "text-muted/40 cursor-not-allowed"
-              }`}
+              className="flex-1 group"
             >
-              <span className={`flex items-center justify-center w-8 h-8 rounded-full ${
-                isActive ? "bg-white/20" : isDone ? "bg-primary/10" : "bg-surface-alt"
-              }`}>
-                {s.icon}
-              </span>
-              <span className="hidden sm:inline">{s.label}</span>
-            </button>
-            {i < steps.length - 1 && (
-              <div className={`flex-1 h-0.5 mx-2 rounded ${
-                i < currentIndex ? "bg-primary-light" : "bg-border"
+              <div className="flex items-center justify-between mb-2 px-1">
+                <span className={`font-[var(--font-body)] text-xs uppercase tracking-widest transition-colors ${
+                  isActive
+                    ? "font-bold text-primary"
+                    : isDone
+                    ? "font-semibold text-primary/70"
+                    : canClick
+                    ? "font-medium text-muted/60 group-hover:text-muted"
+                    : "font-medium text-muted/30"
+                }`}>
+                  {num}. {s.label}
+                </span>
+              </div>
+              <div className={`rounded-full transition-all ${
+                isActive
+                  ? "h-1.5 bg-gradient-to-r from-primary to-primary-light"
+                  : isDone
+                  ? "h-1.5 bg-primary/40"
+                  : "h-1 bg-surface-dim"
               }`} />
-            )}
-          </div>
-        );
-      })}
-    </div>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }

@@ -1,18 +1,24 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Google Stitch inspired color palette */
-  --color-background: #fafafa;
-  --color-foreground: #202124;
-  --color-primary: #1a73e8;
-  --color-primary-light: #4285f4;
-  --color-primary-dark: #1557b0;
-  --color-accent: #ea4335;
+  /* Artisan Blue — Stitch Design System */
+  --color-background: #f7f9fb;
+  --color-foreground: #191c1e;
+  --color-primary: #00236f;
+  --color-primary-light: #1e3a8a;
+  --color-primary-dark: #00164e;
+  --color-accent: #ba1a1a;
   --color-surface: #ffffff;
-  --color-surface-alt: #f1f3f4;
-  --color-border: #dadce0;
-  --color-muted: #5f6368;
-  --font-sans: var(--font-syne);
+  --color-surface-alt: #f2f4f6;
+  --color-surface-dim: #eceef0;
+  --color-border: #c5c5d3;
+  --color-muted: #444651;
+  --color-secondary: #555d7e;
+  --color-secondary-container: #d0d8ff;
+  --color-on-primary: #ffffff;
+  --color-inverse-primary: #b6c4ff;
+  --font-sans: var(--font-body);
+  --font-headline: var(--font-headline);
   --font-mono: var(--font-mono);
 }
 
