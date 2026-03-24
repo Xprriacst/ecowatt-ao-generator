@@ -159,7 +159,7 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
         <textarea
           value={aoText}
           onChange={(e) => setAoText(e.target.value)}
-          placeholder="Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)&#10;&#10;Ou cliquez sur 'Importer un fichier' pour charger un document.&#10;&#10;L'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."
+          placeholder={"Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)\n\nOu cliquez sur 'Importer un fichier' pour charger un document.\n\nL'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."}
           className="w-full h-80 p-4 border border-border rounded-lg bg-surface-alt text-sm leading-relaxed resize-y font-mono"
         />
 

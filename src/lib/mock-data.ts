@@ -1,10 +1,10 @@
 import { ConfigEntreprise, AOData, AnalyseAO, SectionReponse } from './types';
 
 export const defaultConfig: ConfigEntreprise = {
-  nom: "EcoWatts Centre",
-  adresse: "Région Centre-Val de Loire",
+  nom: "Mon Entreprise",
+  adresse: "Adresse de l'entreprise",
   telephone: "",
-  email: "contact@ecowattscentre.fr",
+  email: "contact@monentreprise.fr",
   siret: "",
   codeAPE: "4321A - Travaux d'installation électrique",
   certifications: [
@@ -179,7 +179,7 @@ Code APE / NAF : ${config.codeAPE}
 Adresse du siège social : ${config.adresse}
 Téléphone : ${config.telephone || '[À compléter]'}
 Email : ${config.email}
-Site internet : https://ecowattscentre.fr
+Site internet : [À compléter]
 Effectif : ${config.effectif}
 Chiffre d'affaires : ${config.chiffreAffaires || '[À compléter]'}
 Date de création : Janvier 2025
@@ -421,7 +421,7 @@ Responsable de chantier / Chargé d'affaires
 
 Maître d'ouvrage (Mairie de Châteauroux)
     ↓
-Responsable de chantier (EcoWatts Centre)
+Responsable de chantier (${config.nom})
     ↓
 ├── Électricien n°1 (courant fort)
 ├── Électricien n°2 (courant faible / GTC)

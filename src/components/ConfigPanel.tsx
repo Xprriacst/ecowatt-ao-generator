@@ -1,15 +1,20 @@
 "use client";
 
-import { X, Building2, Shield, Award, MapPin, Users, Plus, Trash2 } from "lucide-react";
-import { ConfigEntreprise } from "@/lib/types";
+import { X, Building2, Shield, Award, MapPin, Users, Plus, Trash2, Cpu, Key, Eye, EyeOff } from "lucide-react";
+import { ConfigEntreprise, AIProvider, AIProviderType, AI_PROVIDERS } from "@/lib/types";
+import { useState } from "react";
 
 interface ConfigPanelProps {
   config: ConfigEntreprise;
   setConfig: (config: ConfigEntreprise) => void;
+  aiProvider: AIProvider;
+  setAiProvider: (provider: AIProvider) => void;
   onClose: () => void;
 }
 
-export default function ConfigPanel({ config, setConfig, onClose }: ConfigPanelProps) {
+export default function ConfigPanel({ config, setConfig, aiProvider, setAiProvider, onClose }: ConfigPanelProps) {
+  const [showApiKey, setShowApiKey] = useState(false);
+  const currentProviderConfig = AI_PROVIDERS[aiProvider.type];
   const updateField = (field: keyof ConfigEntreprise, value: string) => {
     setConfig({ ...config, [field]: value });
   };
@@ -48,7 +53,7 @@ export default function ConfigPanel({ config, setConfig, onClose }: ConfigPanelP
   };
 
   return (
-    <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-6">
+    <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-6 overflow-y-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-bold">Paramétrage de l&apos;entreprise</h2>
@@ -64,6 +69,75 @@ export default function ConfigPanel({ config, setConfig, onClose }: ConfigPanelP
       </div>
 
       <div className="space-y-6">
+        {/* Configuration IA */}
+        <section className="bg-surface rounded-xl p-6 shadow-sm border border-primary/30 ring-2 ring-primary/10">
+          <div className="flex items-center gap-2 mb-4">
+            <Cpu className="w-5 h-5 text-primary" />
+            <h3 className="font-semibold">Configuration IA</h3>
+            <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">Requis</span>
+          </div>
+
+          {/* Provider */}
+          <div className="mb-4">
+            <label className="text-xs font-medium text-muted uppercase tracking-wide">Service IA</label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-1">
+              {(Object.entries(AI_PROVIDERS) as [AIProviderType, typeof AI_PROVIDERS[AIProviderType]][]).map(([key, provider]) => (
+                <button
+                  key={key}
+                  onClick={() => setAiProvider({ ...aiProvider, type: key, model: provider.defaultModel })}
+                  className={`px-3 py-2.5 rounded-lg text-sm font-medium border transition-all ${
+                    aiProvider.type === key
+                      ? "bg-primary text-white border-primary shadow-md"
+                      : "bg-surface-alt text-foreground border-border hover:border-primary/50"
+                  }`}
+                >
+                  {provider.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* API Key */}
+          <div className="mb-4">
+            <label className="text-xs font-medium text-muted uppercase tracking-wide flex items-center gap-1">
+              <Key className="w-3 h-3" />
+              Clé API {currentProviderConfig.label}
+            </label>
+            <div className="relative mt-1">
+              <input
+                type={showApiKey ? "text" : "password"}
+                value={aiProvider.apiKey}
+                onChange={(e) => setAiProvider({ ...aiProvider, apiKey: e.target.value })}
+                className="w-full px-3 py-2 pr-10 border border-border rounded-lg bg-surface-alt text-sm font-mono"
+                placeholder={`Entrez votre clé API ${currentProviderConfig.label}...`}
+              />
+              <button
+                onClick={() => setShowApiKey(!showApiKey)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground"
+              >
+                {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            {!aiProvider.apiKey && (
+              <p className="text-xs text-accent mt-1">⚠️ Clé API requise pour l&apos;analyse et la génération</p>
+            )}
+          </div>
+
+          {/* Modèle */}
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wide">Modèle</label>
+            <select
+              value={aiProvider.model}
+              onChange={(e) => setAiProvider({ ...aiProvider, model: e.target.value })}
+              className="w-full mt-1 px-3 py-2 border border-border rounded-lg bg-surface-alt text-sm"
+            >
+              {currentProviderConfig.models.map((m) => (
+                <option key={m.id} value={m.id}>{m.label}</option>
+              ))}
+            </select>
+          </div>
+        </section>
+
         {/* Identité */}
         <section className="bg-surface rounded-xl p-6 shadow-sm border border-border">
           <div className="flex items-center gap-2 mb-4">

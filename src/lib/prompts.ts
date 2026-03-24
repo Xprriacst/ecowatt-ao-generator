@@ -37,7 +37,7 @@ Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après, avec 
 - Sois précis et factuel, ne déduis pas d'informations non présentes dans le texte
 </instructions>`;
 
-export const PROMPT_GENERER_MEMOIRE = `Tu es un expert en rédaction de mémoires techniques pour les appels d'offres publics dans le domaine de l'électricité BTP. Tu rédiges des mémoires techniques professionnels, détaillés et convaincants pour l'entreprise EcoWatts Centre.
+export const PROMPT_GENERER_MEMOIRE = `Tu es un expert en rédaction de mémoires techniques pour les appels d'offres publics dans le domaine de l'électricité BTP. Tu rédiges des mémoires techniques professionnels, détaillés et convaincants pour l'entreprise candidate.
 
 <context>
 Tu vas recevoir :

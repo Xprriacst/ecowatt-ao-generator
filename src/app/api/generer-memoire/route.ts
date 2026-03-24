@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import anthropic from "@/lib/anthropic";
+import { createChatCompletion } from "@/lib/ai-client";
 import { PROMPT_GENERER_MEMOIRE } from "@/lib/prompts";
+import { AIProvider } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { aoText, aoData, config } = await request.json();
+    const { aoText, aoData, config, aiProvider } = await request.json() as {
+      aoText: string;
+      aoData: unknown;
+      config: unknown;
+      aiProvider: AIProvider;
+    };
 
     if (!aoText || !config) {
       return NextResponse.json(
@@ -13,9 +19,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const userMessage = `${PROMPT_GENERER_MEMOIRE}
+    if (!aiProvider?.apiKey) {
+      return NextResponse.json(
+        { error: "Clé API manquante. Configurez votre provider IA dans les paramètres." },
+        { status: 400 }
+      );
+    }
 
-<appel_offres>
+    const userMessage = `<appel_offres>
 ${aoText}
 </appel_offres>
 
@@ -29,38 +40,21 @@ ${JSON.stringify(config, null, 2)}
 
 Génère le mémoire technique complet maintenant. Réponds UNIQUEMENT avec le tableau JSON.`;
 
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 16000,
-      messages: [
-        {
-          role: "user",
-          content: userMessage,
-        },
-      ],
-    });
+    const chat = createChatCompletion(aiProvider);
+    const responseText = await chat(PROMPT_GENERER_MEMOIRE, userMessage);
 
-    const textContent = message.content.find((block) => block.type === "text");
-    if (!textContent || textContent.type !== "text") {
-      return NextResponse.json(
-        { error: "Réponse vide de l'IA" },
-        { status: 500 }
-      );
-    }
-
-    // Parse le JSON retourné par Claude
+    // Parse le JSON retourné par le modèle
     let sections;
     try {
-      // Extraire le tableau JSON même s'il y a du texte autour
-      const jsonMatch = textContent.text.match(/\[[\s\S]*\]/);
+      const jsonMatch = responseText.match(/\[[\s\S]*\]/);
       if (!jsonMatch) {
         throw new Error("Pas de tableau JSON trouvé dans la réponse");
       }
       sections = JSON.parse(jsonMatch[0]);
-    } catch (parseError) {
-      console.error("Erreur de parsing JSON:", textContent.text.substring(0, 500));
+    } catch {
+      console.error("Erreur de parsing JSON:", responseText.substring(0, 500));
       return NextResponse.json(
-        { error: "Erreur de parsing de la réponse IA", raw: textContent.text },
+        { error: "Erreur de parsing de la réponse IA", raw: responseText },
         { status: 500 }
       );
     }
@@ -77,16 +71,6 @@ Génère le mémoire technique complet maintenant. Réponds UNIQUEMENT avec le t
     return NextResponse.json({ sections: formattedSections });
   } catch (error: unknown) {
     console.error("Erreur API generer-memoire:", error);
-
-    if (error && typeof error === "object" && "status" in error) {
-      const apiError = error as { status: number; error?: { message?: string } };
-      const message = apiError.error?.message || "Erreur API Anthropic";
-      return NextResponse.json(
-        { error: `Erreur Anthropic (${apiError.status}): ${message}` },
-        { status: apiError.status }
-      );
-    }
-
     const errorMessage =
       error instanceof Error ? error.message : "Erreur interne du serveur";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

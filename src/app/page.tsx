@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Step, AOData, AnalyseAO, SectionReponse, ConfigEntreprise, AnalysePlans } from "@/lib/types";
+import { Step, AOData, AnalyseAO, SectionReponse, ConfigEntreprise, AnalysePlans, AIProvider, AI_PROVIDERS } from "@/lib/types";
 import { defaultConfig, exempleAO } from "@/lib/mock-data";
 import Header from "@/components/Header";
 import Stepper from "@/components/Stepper";
@@ -25,6 +25,11 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [analysePlans, setAnalysePlans] = useState<AnalysePlans>({ rapportMarkdown: "", status: "idle" });
+  const [aiProvider, setAiProvider] = useState<AIProvider>({
+    type: 'openrouter',
+    apiKey: '',
+    model: AI_PROVIDERS.openrouter.defaultModel,
+  });
 
   const handleAnalyser = async () => {
     const textToUse = aoText || exempleAO;
@@ -36,7 +41,7 @@ export default function Home() {
       const response = await fetch("/api/analyse-ao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ aoText: textToUse }),
+        body: JSON.stringify({ aoText: textToUse, aiProvider }),
       });
 
       if (!response.ok) {
@@ -93,6 +98,7 @@ export default function Home() {
           aoText: aoData.rawText,
           aoData,
           config,
+          aiProvider,
         }),
       });
 
@@ -131,13 +137,13 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <Header onConfigClick={() => setShowConfig(!showConfig)} config={config} />
 
       {showConfig ? (
-        <ConfigPanel config={config} setConfig={setConfig} onClose={() => setShowConfig(false)} />
+        <ConfigPanel config={config} setConfig={setConfig} aiProvider={aiProvider} setAiProvider={setAiProvider} onClose={() => setShowConfig(false)} />
       ) : (
-        <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-6">
+        <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-6 overflow-y-auto">
           <Stepper currentStep={step} onStepClick={setStep} canNavigate={{
             saisie: true,
             analyse: !!aoData,
