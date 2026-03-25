@@ -1,14 +1,24 @@
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
-import { AIProvider, AI_PROVIDERS } from './types';
+import { AIProviderType } from './types';
 
-export function createChatCompletion(provider: AIProvider) {
-  const providerConfig = AI_PROVIDERS[provider.type];
+interface ChatProvider {
+  type: AIProviderType;
+  model: string;
+}
+
+export function createChatCompletion(provider: ChatProvider, apiKey: string) {
+  const providerConfig = {
+    openrouter: { baseUrl: 'https://openrouter.ai/api/v1' },
+    groq: { baseUrl: 'https://api.groq.com/openai/v1' },
+    openai: { baseUrl: 'https://api.openai.com/v1' },
+    anthropic: { baseUrl: 'https://api.anthropic.com/v1' },
+  }[provider.type] ?? { baseUrl: '' };
 
   // Anthropic uses its own SDK with a different API format
   if (provider.type === 'anthropic') {
     return async (systemPrompt: string, userMessage: string): Promise<string> => {
-      const client = new Anthropic({ apiKey: provider.apiKey });
+      const client = new Anthropic({ apiKey });
       const response = await client.messages.create({
         model: provider.model,
         max_tokens: 8000,
@@ -23,7 +33,7 @@ export function createChatCompletion(provider: AIProvider) {
 
   // OpenRouter, Groq, OpenAI all use OpenAI-compatible API
   const client = new OpenAI({
-    apiKey: provider.apiKey,
+    apiKey,
     baseURL: providerConfig.baseUrl,
     defaultHeaders: provider.type === 'openrouter'
       ? { 'HTTP-Referer': 'https://generateur-memoire-ao.app', 'X-Title': 'Générateur Mémoire AO' }

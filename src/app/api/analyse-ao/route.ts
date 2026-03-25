@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createChatCompletion } from "@/lib/ai-client";
 import { PROMPT_ANALYSE_AO } from "@/lib/prompts";
-import { AIProvider } from "@/lib/types";
+import { getAdminApiKey } from "@/lib/admin-config";
+import { AIProviderType } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { aoText, aiProvider } = await request.json() as { aoText: string; aiProvider: AIProvider };
+    const { aoText, aiProvider } = await request.json() as { 
+      aoText: string; 
+      aiProvider: { type: AIProviderType; model: string };
+    };
 
     if (!aoText || aoText.trim().length === 0) {
       return NextResponse.json(
@@ -14,14 +18,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!aiProvider?.apiKey) {
+    // Récupérer la clé API depuis admin_config (coté server)
+    const apiKey = await getAdminApiKey(aiProvider.type);
+    if (!apiKey) {
       return NextResponse.json(
-        { error: "Clé API manquante. Configurez votre provider IA dans les paramètres." },
+        { error: `Clé API non configurée pour ${aiProvider.type}. Contactez l'administrateur.` },
         { status: 400 }
       );
     }
 
-    const chat = createChatCompletion(aiProvider);
+    const chat = createChatCompletion({ type: aiProvider.type, model: aiProvider.model }, apiKey);
     const responseText = await chat(
       PROMPT_ANALYSE_AO,
       `<appel_offres>\n${aoText}\n</appel_offres>`

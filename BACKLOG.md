@@ -47,20 +47,20 @@ Transformer l'outil interne en SaaS commercial avec :
 ## EPIC 2 — Authentification (Priorité: P0)
 
 ### 2.1 Setup Supabase
-- [ ] Créer le projet Supabase
-- [ ] Configurer les variables d'environnement (SUPABASE_URL, SUPABASE_ANON_KEY)
-- [ ] Installer `@supabase/supabase-js` et `@supabase/ssr`
+- [x] Créer le projet Supabase
+- [x] Configurer les variables d'environnement (SUPABASE_URL, SUPABASE_ANON_KEY)
+- [x] Installer `@supabase/supabase-js` et `@supabase/ssr`
 
 ### 2.2 Pages Auth
-- [ ] Page `/login` : email + mot de passe + Google OAuth
-- [ ] Page `/signup` : inscription avec email
+- [x] Page `/login` : email + mot de passe + Google OAuth
+- [x] Page `/signup` : inscription avec email
 - [ ] Page `/forgot-password` : réinitialisation mot de passe
 - [ ] Email de confirmation d'inscription
-- [ ] Middleware Next.js pour protéger les routes `/app/*`
+- [x] Middleware Next.js pour protéger les routes `/app/*`
 
 ### 2.3 Gestion utilisateur
 - [ ] Page `/app/account` : profil, changement de mot de passe
-- [ ] Bouton déconnexion dans le header
+- [x] Bouton déconnexion dans le header
 - [ ] Stocker la config entreprise par utilisateur (pas en localStorage)
 
 ---
@@ -118,8 +118,17 @@ CREATE TABLE ao_history (
 ```
 
 ### 3.2 Row Level Security (RLS)
-- [ ] Chaque user ne voit que ses propres données
-- [ ] Policies sur toutes les tables
+- [x] Chaque user ne voit que ses propres données
+- [x] Policies sur toutes les tables
+
+### 3.3 Gestion des Clés API Admin (Priorité: P0)
+- [x] Table `admin_config` — stockage des clés API par provider
+- [x] Colonne `role` dans `profiles` (`admin` | `user`)
+- [x] RLS sur `admin_config` — seul l'admin peut lire/écrire
+- [x] Page `/app/admin` — configuration des clés par provider
+- [x] API routes IA (`/api/analyse-ao`, `/api/generer-memoire`) — clés depuis `admin_config` (server-side)
+- [x] `ConfigPanel` épuré — les users ne saisissent plus de clé API manuellement
+- [x] `AIProvider.apiKey` retiré du type client
 
 ---
 

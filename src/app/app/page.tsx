@@ -27,7 +27,6 @@ export default function Home() {
   const [analysePlans, setAnalysePlans] = useState<AnalysePlans>({ rapportMarkdown: "", status: "idle" });
   const [aiProvider, setAiProvider] = useState<AIProvider>({
     type: 'openrouter',
-    apiKey: '',
     model: AI_PROVIDERS.openrouter.defaultModel,
   });
 

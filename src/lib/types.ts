@@ -71,8 +71,8 @@ export type AIProviderType = 'openrouter' | 'groq' | 'openai' | 'anthropic';
 
 export interface AIProvider {
   type: AIProviderType;
-  apiKey: string;
   model: string;
+  // apiKey supprimée : les clés sont gérées côté server via admin_config
 }
 
 export const AI_PROVIDERS: Record<AIProviderType, { label: string; baseUrl: string; defaultModel: string; models: { id: string; label: string }[] }> = {

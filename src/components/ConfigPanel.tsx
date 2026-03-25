@@ -97,32 +97,6 @@ export default function ConfigPanel({ config, setConfig, aiProvider, setAiProvid
             </div>
           </div>
 
-          {/* API Key */}
-          <div className="mb-4">
-            <label className="text-xs font-medium text-muted uppercase tracking-wide flex items-center gap-1">
-              <Key className="w-3 h-3" />
-              Clé API {currentProviderConfig.label}
-            </label>
-            <div className="relative mt-1">
-              <input
-                type={showApiKey ? "text" : "password"}
-                value={aiProvider.apiKey}
-                onChange={(e) => setAiProvider({ ...aiProvider, apiKey: e.target.value })}
-                className="w-full px-3 py-2 pr-10 border border-border rounded-lg bg-surface-alt text-sm font-mono"
-                placeholder={`Entrez votre clé API ${currentProviderConfig.label}...`}
-              />
-              <button
-                onClick={() => setShowApiKey(!showApiKey)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground"
-              >
-                {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-            {!aiProvider.apiKey && (
-              <p className="text-xs text-accent mt-1">⚠️ Clé API requise pour l&apos;analyse et la génération</p>
-            )}
-          </div>
-
           {/* Modèle */}
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wide">Modèle</label>
@@ -135,6 +109,13 @@ export default function ConfigPanel({ config, setConfig, aiProvider, setAiProvid
                 <option key={m.id} value={m.id}>{m.label}</option>
               ))}
             </select>
+          </div>
+
+          {/* Info: Clés API gérées par l'admin */}
+          <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-xs text-blue-700">
+              💡 Les clés API sont gérées par l'administrateur. Pour toute question, contactez-le.
+            </p>
           </div>
         </section>
 

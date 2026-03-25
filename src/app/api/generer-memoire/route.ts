@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createChatCompletion } from "@/lib/ai-client";
 import { PROMPT_GENERER_MEMOIRE } from "@/lib/prompts";
-import { AIProvider } from "@/lib/types";
+import { getAdminApiKey } from "@/lib/admin-config";
+import { AIProviderType } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,7 +10,7 @@ export async function POST(request: NextRequest) {
       aoText: string;
       aoData: unknown;
       config: unknown;
-      aiProvider: AIProvider;
+      aiProvider: { type: AIProviderType; model: string };
     };
 
     if (!aoText || !config) {
@@ -19,9 +20,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!aiProvider?.apiKey) {
+    // Récupérer la clé API depuis admin_config (coté server)
+    const apiKey = await getAdminApiKey(aiProvider.type);
+    if (!apiKey) {
       return NextResponse.json(
-        { error: "Clé API manquante. Configurez votre provider IA dans les paramètres." },
+        { error: `Clé API non configurée pour ${aiProvider.type}. Contactez l'administrateur.` },
         { status: 400 }
       );
     }
@@ -40,7 +43,7 @@ ${JSON.stringify(config, null, 2)}
 
 Génère le mémoire technique complet maintenant. Réponds UNIQUEMENT avec le tableau JSON.`;
 
-    const chat = createChatCompletion(aiProvider);
+    const chat = createChatCompletion({ type: aiProvider.type, model: aiProvider.model }, apiKey);
     const responseText = await chat(PROMPT_GENERER_MEMOIRE, userMessage);
 
     // Parse le JSON retourné par le modèle
