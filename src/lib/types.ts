@@ -65,7 +65,14 @@ export interface AnalysePlans {
   error?: string;
 }
 
-export type Step = 'saisie' | 'analyse' | 'plans' | 'reponse' | 'apercu' | 'export';
+export type Step = 'saisie' | 'analyse' | 'plans' | 'contexte' | 'reponse' | 'apercu' | 'export';
+
+export interface ContexteAO {
+  moyensTechniques: string;
+  certificationsPertinentes: string;
+  experiencesSimilaires: string;
+  notesSpecifiques: string;
+}
 
 export type AIProviderType = 'openrouter' | 'groq' | 'openai' | 'anthropic';
 

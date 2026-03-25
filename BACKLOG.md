@@ -198,6 +198,13 @@ CREATE TABLE ao_history (
 - [ ] Pouvoir reprendre un AO en cours
 - [ ] Export PDF de l'historique
 
+### 6.4 Saisie du contexte entreprise pour réponse AO
+- [x] Nouvelle step StepContexte (entre Plans et Réponse)
+- [x] Champs : moyens techniques, certifications pertinentes, expériences similaires, notes spécifiques
+- [x] Auto-fill depuis ConfigPanel (localStorage + bouton)
+- [x] Transmission du contexte à /api/generer-memoire
+- [ ] Optionnel : stockage BDD du contexte par AO
+
 ---
 
 ## EPIC 7 — Déploiement & DevOps (Priorité: P1)

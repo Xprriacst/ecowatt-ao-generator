@@ -6,6 +6,7 @@ const steps: { key: Step; label: string }[] = [
   { key: "saisie", label: "Saisie AO" },
   { key: "analyse", label: "Analyse" },
   { key: "plans", label: "Plans" },
+  { key: "contexte", label: "Contexte" },
   { key: "reponse", label: "Réponse" },
   { key: "apercu", label: "Aperçu" },
   { key: "export", label: "Export" },

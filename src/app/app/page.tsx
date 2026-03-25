@@ -1,17 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { Step, AOData, AnalyseAO, SectionReponse, ConfigEntreprise, AnalysePlans, AIProvider, AI_PROVIDERS } from "@/lib/types";
+import { Step, AOData, AnalyseAO, SectionReponse, ConfigEntreprise, AnalysePlans, AIProvider, AI_PROVIDERS, ContexteAO } from "@/lib/types";
 import { defaultConfig, exempleAO } from "@/lib/mock-data";
 import Header from "@/components/Header";
 import Stepper from "@/components/Stepper";
 import StepSaisie from "@/components/StepSaisie";
 import StepAnalyse from "@/components/StepAnalyse";
 import StepPlans from "@/components/StepPlans";
+import StepContexte from "@/components/StepContexte";
 import StepReponse from "@/components/StepReponse";
 import StepExport from "@/components/StepExport";
 import StepApercu from "@/components/StepApercu";
 import ConfigPanel from "@/components/ConfigPanel";
+
+const DEFAULT_CONTEXTE: ContexteAO = {
+  moyensTechniques: "",
+  certificationsPertinentes: "",
+  experiencesSimilaires: "",
+  notesSpecifiques: "",
+};
 
 export default function Home() {
   const [step, setStep] = useState<Step>("saisie");
@@ -25,6 +33,7 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [analysePlans, setAnalysePlans] = useState<AnalysePlans>({ rapportMarkdown: "", status: "idle" });
+  const [contexteAO, setContexteAO] = useState<ContexteAO>(DEFAULT_CONTEXTE);
   const [aiProvider, setAiProvider] = useState<AIProvider>({
     type: 'openrouter',
     model: AI_PROVIDERS.openrouter.defaultModel,
@@ -97,6 +106,7 @@ export default function Home() {
           aoText: aoData.rawText,
           aoData,
           config,
+          contexteAO,
           aiProvider,
         }),
       });
@@ -133,6 +143,7 @@ export default function Home() {
     setAnalyse(null);
     setSections([]);
     setAnalysePlans({ rapportMarkdown: "", status: "idle" });
+    setContexteAO(DEFAULT_CONTEXTE);
   };
 
   return (
@@ -147,6 +158,7 @@ export default function Home() {
             saisie: true,
             analyse: !!aoData,
             plans: !!aoData,
+            contexte: !!aoData,
             reponse: sections.length > 0,
             apercu: sections.length > 0,
             export: sections.length > 0,
@@ -181,9 +193,18 @@ export default function Home() {
               <StepPlans
                 analysePlans={analysePlans}
                 setAnalysePlans={setAnalysePlans}
-                onGenerer={handleGenererReponse}
+                onGenerer={() => setStep("contexte")}
                 onRetour={() => setStep("analyse")}
                 isGenerating={isGenerating}
+              />
+            )}
+            {step === "contexte" && aoData && (
+              <StepContexte
+                contexteAO={contexteAO}
+                setContexteAO={setContexteAO}
+                config={config}
+                onSuivant={handleGenererReponse}
+                onRetour={() => setStep("plans")}
               />
             )}
             {step === "reponse" && (
@@ -191,7 +212,7 @@ export default function Home() {
                 sections={sections}
                 setSections={setSections}
                 onApercu={handleApercu}
-                onRetour={() => setStep("plans")}
+                onRetour={() => setStep("contexte")}
               />
             )}
             {step === "apercu" && aoData && (

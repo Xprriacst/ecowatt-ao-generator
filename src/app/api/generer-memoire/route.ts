@@ -6,10 +6,11 @@ import { AIProviderType } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { aoText, aoData, config, aiProvider } = await request.json() as {
+    const { aoText, aoData, config, contexteAO, aiProvider } = await request.json() as {
       aoText: string;
       aoData: unknown;
       config: unknown;
+      contexteAO: { moyensTechniques: string; certificationsPertinentes: string; experiencesSimilaires: string; notesSpecifiques: string };
       aiProvider: { type: AIProviderType; model: string };
     };
 
@@ -40,6 +41,10 @@ ${JSON.stringify(aoData, null, 2)}
 <config_entreprise>
 ${JSON.stringify(config, null, 2)}
 </config_entreprise>
+
+<contexte_reponse_ao>
+${contexteAO ? `Moyens techniques:\n${contexteAO.moyensTechniques || 'Non précisés'}\n\nCertifications pertinentes:\n${contexteAO.certificationsPertinentes || 'Aucune précisée'}\n\nExpériences similaires:\n${contexteAO.experiencesSimilaires || 'Aucune mentionnée'}\n\nNotes spécifiques:\n${contexteAO.notesSpecifiques || 'Aucune'}` : ''}
+</contexte_reponse_ao>
 
 Génère le mémoire technique complet maintenant. Réponds UNIQUEMENT avec le tableau JSON.`;
 
