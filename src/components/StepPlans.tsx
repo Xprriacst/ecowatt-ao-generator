@@ -109,8 +109,14 @@ export default function StepPlans({ analysePlans, setAnalysePlans, onGenerer, on
       });
 
       if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.error || "Erreur lors de l'analyse des plans");
+        let errMsg = "Erreur lors de l'analyse des plans";
+        try {
+          const err = await response.json();
+          errMsg = err.error || errMsg;
+        } catch {
+          // Response wasn't JSON (e.g. "Internal Server Error")
+        }
+        throw new Error(errMsg);
       }
 
       const result = await response.json();
