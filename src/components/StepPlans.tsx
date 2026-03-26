@@ -28,7 +28,7 @@ export default function StepPlans({ analysePlans, setAnalysePlans, onGenerer, on
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [dpgfFile, setDpgfFile] = useState<File | null>(null);
-  const [webhookUrl, setWebhookUrl] = useState("http://187.77.169.67:5678/webhook-test/btp-electricite-agents-test");
+  const [webhookUrl, setWebhookUrl] = useState("http://187.77.169.67:5678/webhook/btp-electricite-agents-ultra-v4");
   const [showWebhookConfig, setShowWebhookConfig] = useState(false);
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [copied, setCopied] = useState(false);
