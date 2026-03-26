@@ -11,7 +11,6 @@ import {
   Brain,
   Download,
   ChevronDown,
-  Star,
 } from "lucide-react";
 
 const features = [
@@ -255,10 +254,10 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Pro Plan */}
-            <div className="bg-gradient-to-br from-[#00236f] to-[#1e3a8a] rounded-2xl p-10 text-white relative overflow-hidden shadow-2xl shadow-[#00236f]/30">
+            {/* Pro Plan — Coming Soon */}
+            <div className="bg-gradient-to-br from-[#00236f]/60 to-[#1e3a8a]/60 rounded-2xl p-10 text-white relative overflow-hidden shadow-2xl shadow-[#00236f]/10 opacity-75">
               <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
-                <Star className="w-3 h-3" /> Populaire
+                Bientôt disponible
               </div>
               <h3 className="font-[var(--font-headline)] font-bold text-xl mb-2">Pro</h3>
               <p className="text-white/70 text-sm mb-6">Pour les professionnels du BTP</p>
@@ -281,12 +280,11 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/app"
-                className="block text-center w-full py-3.5 rounded-xl bg-white text-[#00236f] font-bold hover:bg-white/90 transition-colors shadow-lg"
+              <span
+                className="block text-center w-full py-3.5 rounded-xl bg-white/50 text-[#00236f]/60 font-bold cursor-not-allowed"
               >
-                Passer au Pro
-              </Link>
+                Bientôt disponible
+              </span>
             </div>
           </div>
         </div>

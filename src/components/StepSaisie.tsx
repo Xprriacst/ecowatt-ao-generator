@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { ClipboardPaste, ArrowRight, FileText, Search, FileCheck, Zap, Loader2, Upload } from "lucide-react";
+import { ClipboardPaste, ArrowRight, FileText, Search, FileCheck, Zap, Loader2, Upload, X } from "lucide-react";
+
+interface UploadedFile {
+  name: string;
+  content: string;
+}
 
 interface StepSaisieProps {
   aoText: string;
@@ -20,8 +25,10 @@ const analyseSteps = [
 
 export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, isAnalysing }: StepSaisieProps) {
   const [currentAnalyseStep, setCurrentAnalyseStep] = useState(0);
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hasFiles = uploadedFiles.length > 0;
+  const hasText = aoText.length > 0;
 
   useEffect(() => {
     if (!isAnalysing) {
@@ -35,18 +42,26 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
   }, [isAnalysing]);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setUploadedFileName(file.name);
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
 
     try {
-      const text = await file.text();
-      setAoText(text);
+      const newFiles: UploadedFile[] = [];
+      for (const file of Array.from(files)) {
+        const text = await file.text();
+        newFiles.push({ name: file.name, content: text });
+      }
+      setUploadedFiles((prev) => [...prev, ...newFiles]);
+      if (aoText) setAoText("");
     } catch (error) {
       console.error("Erreur lors de la lecture du fichier:", error);
       alert("Erreur lors de la lecture du fichier. Veuillez réessayer.");
     }
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleUploadClick = () => {
@@ -137,10 +152,16 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
               accept=".txt,.pdf,.doc,.docx"
               onChange={handleFileUpload}
               className="hidden"
+              multiple
             />
             <button
               onClick={handleUploadClick}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
+              disabled={hasText}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors border ${
+                hasText
+                  ? "text-muted/40 bg-surface-alt border-border cursor-not-allowed"
+                  : "text-primary bg-primary/5 hover:bg-primary/10 border-primary/20"
+              }`}
             >
               <Upload className="w-4 h-4" />
               Importer les documents (RC, CCTP, CCAP, Annexes...)
@@ -148,24 +169,47 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
           </div>
         </div>
 
-        {uploadedFileName && (
-          <div className="mb-3 px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg flex items-center gap-2 text-sm">
-            <FileText className="w-4 h-4 text-primary" />
-            <span className="text-primary font-medium">Fichier importé :</span>
-            <span className="text-foreground">{uploadedFileName}</span>
+        {uploadedFiles.length > 0 && (
+          <div className="mb-3 space-y-2">
+            {uploadedFiles.map((file, i) => (
+              <div key={i} className="px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" />
+                  <span className="text-foreground">{file.name}</span>
+                  <span className="text-muted text-xs">({file.content.length} car.)</span>
+                </div>
+                <button
+                  onClick={() => handleRemoveFile(i)}
+                  className="p-1 text-muted hover:text-accent hover:bg-accent/10 rounded transition-colors"
+                  title="Supprimer ce document"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
           </div>
         )}
 
         <textarea
           value={aoText}
-          onChange={(e) => setAoText(e.target.value)}
-          placeholder={"Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)\n\nOu cliquez sur 'Importer un fichier' pour charger un document.\n\nL'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."}
-          className="w-full h-80 p-4 border border-border rounded-lg bg-surface-alt text-sm leading-relaxed resize-y font-mono"
+          onChange={(e) => {
+            setAoText(e.target.value);
+            if (uploadedFiles.length > 0) setUploadedFiles([]);
+          }}
+          disabled={hasFiles}
+          placeholder={hasFiles
+            ? "Documents importés ci-dessus. Supprimez-les pour saisir du texte manuellement."
+            : "Collez ici le texte de l'appel d'offres (avis de marché, CCTP, règlement de consultation...)\n\nOu cliquez sur 'Importer un fichier' pour charger un document.\n\nL'outil analysera automatiquement les informations clés : objet du marché, critères d'attribution, documents exigés, délais, etc."}
+          className={`w-full h-80 p-4 border border-border rounded-lg text-sm leading-relaxed resize-y font-mono ${
+            hasFiles ? "bg-surface-dim text-muted cursor-not-allowed" : "bg-surface-alt"
+          }`}
         />
 
         <div className="flex items-center justify-between mt-4">
           <div className="text-xs text-muted">
-            {aoText.length > 0 ? (
+            {hasFiles ? (
+              <span>{uploadedFiles.length} document{uploadedFiles.length > 1 ? "s" : ""} importé{uploadedFiles.length > 1 ? "s" : ""} • {uploadedFiles.reduce((sum, f) => sum + f.content.length, 0)} caractères au total</span>
+            ) : aoText.length > 0 ? (
               <span>{aoText.length} caractères • {aoText.split(/\s+/).filter(Boolean).length} mots</span>
             ) : (
               <span>En attente du texte de l&apos;AO...</span>
@@ -173,15 +217,31 @@ export default function StepSaisie({ aoText, setAoText, onAnalyser, exempleAO, i
           </div>
           <div className="flex gap-3">
             <button
-              onClick={() => setAoText(exempleAO)}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/5 hover:bg-primary/10 rounded-lg transition-colors border border-primary/20"
+              onClick={() => { setAoText(exempleAO); setUploadedFiles([]); }}
+              disabled={hasFiles}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors border ${
+                hasFiles
+                  ? "text-muted/40 bg-surface-alt border-border cursor-not-allowed"
+                  : "text-primary bg-primary/5 hover:bg-primary/10 border-primary/20"
+              }`}
             >
               <FileText className="w-4 h-4" />
               Charger un exemple
             </button>
             <button
-              onClick={onAnalyser}
-              className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-lg transition-colors shadow-md"
+              onClick={() => {
+                if (hasFiles) {
+                  const combined = uploadedFiles.map(f => `--- ${f.name} ---\n${f.content}`).join("\n\n");
+                  setAoText(combined);
+                }
+                setTimeout(() => onAnalyser(), 50);
+              }}
+              disabled={!hasText && !hasFiles}
+              className={`flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white rounded-lg transition-colors shadow-md ${
+                hasText || hasFiles
+                  ? "bg-primary hover:bg-primary-dark"
+                  : "bg-muted/30 cursor-not-allowed"
+              }`}
             >
               Analyser l&apos;AO
               <ArrowRight className="w-4 h-4" />

@@ -17,21 +17,37 @@ export interface AdminProviderConfig {
  * Utilisé côté server dans les API routes IA.
  */
 export async function getAdminApiKey(provider: string): Promise<string | null> {
-  const supabase = await createClient();
-  
-  const { data, error } = await supabase
-    .from('admin_config')
-    .select('api_key, enabled')
-    .eq('provider', provider)
-    .eq('enabled', true)
-    .single();
+  // 1. Try Supabase admin_config table
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('admin_config')
+      .select('api_key, enabled')
+      .eq('provider', provider)
+      .eq('enabled', true)
+      .single();
 
-  if (error || !data) {
-    console.error(`[admin-config] Erreur pour provider ${provider}:`, error);
-    return null;
+    if (!error && data?.api_key) {
+      return data.api_key;
+    }
+  } catch {
+    // Supabase not configured — fall through to env vars
   }
 
-  return data.api_key;
+  // 2. Fallback to environment variables
+  const envMap: Record<string, string> = {
+    openrouter: 'OPENROUTER_API_KEY',
+    groq: 'GROQ_API_KEY',
+    openai: 'OPENAI_API_KEY',
+    anthropic: 'ANTHROPIC_API_KEY',
+  };
+  const envKey = envMap[provider];
+  if (envKey && process.env[envKey]) {
+    return process.env[envKey]!;
+  }
+
+  console.error(`[admin-config] Aucune clé API trouvée pour ${provider}`);
+  return null;
 }
 
 /**

@@ -35,21 +35,8 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Protected routes: /app/* (except /app/login and /app/signup)
-  const isProtectedRoute =
-    pathname.startsWith('/app') &&
-    !pathname.startsWith('/app/login') &&
-    !pathname.startsWith('/app/signup') &&
-    !pathname.startsWith('/app/logout')
-
   // Public routes that should redirect if logged in
   const isAuthRoute = pathname === '/login' || pathname === '/signup'
-
-  if (isProtectedRoute && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
 
   if (user && isAuthRoute) {
     const url = request.nextUrl.clone()
